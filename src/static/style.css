@@ -11,3 +11,7 @@
     width: 50px;
     margin: 10px;
 }
+
+.board .square.active {
+    background-color: green;
+}
