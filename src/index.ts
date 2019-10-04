@@ -1,37 +1,26 @@
+import Points from './Points';
+import Timer from './Timer';
 
+
+const p = new Points();
+const t = new Timer(60);
 
 document.addEventListener("DOMContentLoaded", function (event) {
-    makeClickable();
-
-    runGame(25);
+    p.makeClickable();
+    runGame();
+    t.runTimer();
 });
 
-function makeClickable(): void {
-    var elements = document.querySelectorAll('.board .square');
-    elements.forEach((element, index) => {
-        element.addEventListener('click', squareOnClick);
-    });
-}
-
-function squareOnClick(event) {
-    let list = event.target.classList;
-
-    if (list.contains('active')) {
-        return;
-    }
-}
-
-
-
-function runGame(amountOfSquares) {
+function runGame(): void {
     setInterval(() => {
-        var selectedNumber = Math.floor(Math.random() * amountOfSquares);
-        var elements = document.querySelectorAll('.board .square');
+        let selectedNumber = Math.floor(Math.random() * 25),
+            elements = document.querySelectorAll('.board .square'),
+            element = elements[selectedNumber];
 
         elements.forEach(((element) => {
             element.classList.remove('active');
         }));
-        var element = document.querySelectorAll('.board .square')[selectedNumber];
+
         element.classList.add('active');
     }, 2000);
 }

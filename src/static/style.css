@@ -15,3 +15,15 @@
 .board .square.active {
     background-color: green;
 }
+
+#lives-info {
+    border: 1px solid black;
+}
+
+#points-info {
+    border: 1px solid black;
+}
+
+#time-info {
+    border: 1px solid black;
+}
