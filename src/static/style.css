@@ -1,18 +1,18 @@
-.board {
+#board {
     display: grid;
     grid-template-columns: 1fr 1fr 1fr 1fr 1fr;
     width: fit-content;
     height: fit-content;
 }
 
-.board .square {
+#board .square {
     border: 1px solid black;
     height: 50px;
     width: 50px;
     margin: 10px;
 }
 
-.board .square.active {
+#board .square.active {
     background-color: green;
 }
 
@@ -26,4 +26,8 @@
 
 #time-info {
     border: 1px solid black;
+}
+
+#end-info.hidden {
+    display: none;
 }

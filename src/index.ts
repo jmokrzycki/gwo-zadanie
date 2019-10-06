@@ -1,26 +1,6 @@
-import Points from './Points';
-import Timer from './Timer';
+import Game from './components/Game';
 
-
-const p = new Points();
-const t = new Timer(60);
-
-document.addEventListener("DOMContentLoaded", function (event) {
-    p.makeClickable();
-    runGame();
-    t.runTimer();
+document.addEventListener("DOMContentLoaded", function () {
+    const game = new Game();
+    game.init();
 });
-
-function runGame(): void {
-    setInterval(() => {
-        let selectedNumber = Math.floor(Math.random() * 25),
-            elements = document.querySelectorAll('.board .square'),
-            element = elements[selectedNumber];
-
-        elements.forEach(((element) => {
-            element.classList.remove('active');
-        }));
-
-        element.classList.add('active');
-    }, 2000);
-}
