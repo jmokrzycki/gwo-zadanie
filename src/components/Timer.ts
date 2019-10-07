@@ -5,10 +5,13 @@ class Timer {
     private timeLimit: number;
     private timeHTML: HTMLElement = document.getElementById('time-info');
     private timeInfoHTML: HTMLElement = this.timeHTML.querySelector('span');
+    private timeInterval: any;
     private observers: IGame[] = [];
 
     constructor(timeLimit: number = 60) {
         this.timeLimit = timeLimit;
+
+
     }
 
     addObserver(observer: IGame): void {
@@ -22,13 +25,19 @@ class Timer {
     }
 
     runTimer(): void {
-        setInterval(() => {
+        this.timeInterval = setInterval(() => {
             this.elapsedSeconds++;
             this.timeInfoHTML.innerHTML = this.elapsedSeconds.toString();
             if (this.elapsedSeconds === this.timeLimit) {
                 this.notify();
             }
         }, 1000);
+    }
+
+    resetTimer(): void {
+        clearInterval(this.timeInterval);
+        this.elapsedSeconds = 0;
+        this.timeInfoHTML.innerHTML = '-';
     }
 }
 

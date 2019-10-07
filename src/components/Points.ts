@@ -1,4 +1,3 @@
-
 class Points {
     private points: number = 0;
     private pointsHTML: HTMLElement = document.getElementById('points-info');
@@ -16,6 +15,11 @@ class Points {
 
     private calculatePoints(eventTarget: any): void {
         eventTarget.classList.contains('active') ? ++this.points : --this.points;
+    }
+
+    resetPoints(): void {
+        this.points = 0;
+        this.pointsInfoHTML.innerHTML = '-';
     }
 }
 

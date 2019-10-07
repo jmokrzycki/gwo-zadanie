@@ -24,12 +24,17 @@ class Lives {
         return this.livesAmount;
     }
 
-    updateLives() {
+    updateLives(): void {
         this.livesAmount--;
         this.livesInfoHTML.innerHTML = this.livesAmount.toString();
         if (this.livesAmount === 0) {
             this.notify();
         }
+    }
+
+    resetLives(): void {
+        this.livesAmount = 0;
+        this.livesInfoHTML.innerHTML = '-';
     }
 }
 

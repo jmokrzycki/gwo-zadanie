@@ -10,27 +10,28 @@ export interface IGame {
 }
 
 class Game implements IGame {
-    b = new Board(25);
-    p = new Points();
-    t = new Timer(5);
-    l = new Lives();
+    board = new Board(25);
+    points = new Points();
+    timer = new Timer(5);
+    lives = new Lives();
+    private startButton: any = document.getElementById('start');
+    private resetButton: any = document.getElementById('reset');
     private endHTML: HTMLElement = document.getElementById('end-info');
-    private endInfoHTML: any = this.endHTML.querySelector('span');
+    private endInfoHTML: HTMLSpanElement = this.endHTML.querySelector('span');
+    private gameInterval: any;
 
-    init() {
-        this.b.generateSquares();
+    init(): void {
+        this.board.generateSquares();
 
-        this.makeClickable();
+        this.lives.addObserver(this);
+        this.timer.addObserver(this);
 
-        this.runGame();
-        this.t.runTimer();
-
-        this.l.addObserver(this);
-        this.t.addObserver(this);
+        this.startButtonInitialize();
+        this.resetButtonInitialize();
     }
 
     runGame(): void {
-        setInterval(() => {
+        this.gameInterval = setInterval(() => {
             let selectedNumber = Math.floor(Math.random() * 25),
                 elements = document.querySelectorAll('#board .square'),
                 element = elements[selectedNumber];
@@ -43,9 +44,18 @@ class Game implements IGame {
         }, 2000);
     }
 
-    endGame() {
+    endGame(): void {
+        this.showEndGameInfo();
+        this.resetGame()
+    }
+
+    showEndGameInfo(): void {
         this.endHTML.classList.remove("hidden");
-        this.endInfoHTML.innerHTML = this.p.getPoints();
+        this.endInfoHTML.innerHTML = this.points.getPoints().toString();
+    }
+
+    hideEndGameInfo(): void {
+        this.endHTML.classList.add("hidden");
     }
 
     makeClickable(): void {
@@ -57,8 +67,34 @@ class Game implements IGame {
     }
 
     private squareOnClick(event: any): void {
-        this.p.updatePoints(event);
-        this.l.updateLives();
+        this.points.updatePoints(event);
+        this.lives.updateLives();
+    }
+
+    startButtonInitialize(): void {
+        this.startButton.addEventListener('click', this.startGame.bind(this));
+    }
+
+    resetButtonInitialize(): void {
+        this.resetButton.addEventListener('click', this.resetGame.bind(this));
+    }
+
+    startGame(): void {
+        this.makeClickable();
+        this.runGame();
+        this.timer.runTimer();
+        this.resetButton.disabled = false;
+        this.startButton.disabled = true;
+    }
+
+    resetGame(): void {
+        this.timer.resetTimer();
+        this.points.resetPoints();
+        this.lives.resetLives();
+        this.board.resetSquares()
+        clearInterval(this.gameInterval);
+        this.resetButton.disabled = true;
+        this.startButton.disabled = false;
     }
 }
 
