@@ -1,7 +1,7 @@
 class Board {
     private squaresAmount: number;
     private boardHTML: HTMLElement = document.getElementById('board');
-
+    private squaresHTML: any;
     constructor(squaresAmount: number = 25) {
         this.squaresAmount = squaresAmount;
     }
@@ -12,11 +12,11 @@ class Board {
             square.className += 'square';
             this.boardHTML.appendChild(square);
         }
+        this.squaresHTML = this.boardHTML.querySelectorAll('.square')
     }
 
     resetSquares(): void {
-        let elements = document.querySelectorAll('#board .square');
-        elements.forEach(((element) => {
+        this.squaresHTML.forEach(((element) => {
             element.classList.remove('active');
         }));
     }

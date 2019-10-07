@@ -10,7 +10,7 @@ class Points {
     updatePoints(event: any): void {
         let eventTarget = event.target;
         this.calculatePoints(eventTarget);
-        this.pointsInfoHTML.innerHTML = this.points.toString();
+        this.showActualPoints();
     }
 
     private calculatePoints(eventTarget: any): void {
@@ -20,6 +20,10 @@ class Points {
     resetPoints(): void {
         this.points = 0;
         this.pointsInfoHTML.innerHTML = '-';
+    }
+
+    showActualPoints(): void {
+        this.pointsInfoHTML.innerHTML = this.points.toString();
     }
 }
 

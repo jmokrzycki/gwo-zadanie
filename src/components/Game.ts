@@ -31,30 +31,34 @@ class Game implements IGame {
     }
 
     runGame(): void {
-        this.gameInterval = setInterval(() => {
-            let selectedNumber = Math.floor(Math.random() * 25),
-                elements = document.querySelectorAll('#board .square'),
-                element = elements[selectedNumber];
+        this.points.showActualPoints();
+        this.lives.showActualLives();
+        this.gameCycle();
+        this.gameInterval = setInterval(this.gameCycle.bind(this), 2000);
+    }
 
-            elements.forEach(((element) => {
-                element.classList.remove('active');
-            }));
+    gameCycle(): void {
+        let selectedNumber = Math.floor(Math.random() * 25),
+            elements = document.querySelectorAll('#board .square'),
+            element = elements[selectedNumber];
 
-            element.classList.add('active');
-        }, 2000);
+        elements.forEach(((element) => {
+            element.classList.remove('active');
+        }));
+        element.classList.add('active');
     }
 
     endGame(): void {
-        this.showEndGameInfo();
+        this.showGameSummary();
         this.resetGame()
     }
 
-    showEndGameInfo(): void {
+    showGameSummary(): void {
         this.endHTML.classList.remove("hidden");
         this.endInfoHTML.innerHTML = this.points.getPoints().toString();
     }
 
-    hideEndGameInfo(): void {
+    hideGameSummary(): void {
         this.endHTML.classList.add("hidden");
     }
 
@@ -91,7 +95,7 @@ class Game implements IGame {
         this.timer.resetTimer();
         this.points.resetPoints();
         this.lives.resetLives();
-        this.board.resetSquares()
+        this.board.resetSquares();
         clearInterval(this.gameInterval);
         this.resetButton.disabled = true;
         this.startButton.disabled = false;

@@ -25,13 +25,16 @@ class Timer {
     }
 
     runTimer(): void {
-        this.timeInterval = setInterval(() => {
-            this.elapsedSeconds++;
-            this.timeInfoHTML.innerHTML = this.elapsedSeconds.toString();
-            if (this.elapsedSeconds === this.timeLimit) {
-                this.notify();
-            }
-        }, 1000);
+        this.timeCycle();
+        this.timeInterval = setInterval(this.timeCycle.bind(this), 1000);
+    }
+
+    timeCycle(): void {
+        if (this.elapsedSeconds === this.timeLimit) {
+            this.notify();
+        }
+        this.timeInfoHTML.innerHTML = this.elapsedSeconds.toString();
+        this.elapsedSeconds++;
     }
 
     resetTimer(): void {

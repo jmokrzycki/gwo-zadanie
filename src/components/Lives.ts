@@ -26,7 +26,7 @@ class Lives {
 
     updateLives(): void {
         this.livesAmount--;
-        this.livesInfoHTML.innerHTML = this.livesAmount.toString();
+        this.showActualLives();
         if (this.livesAmount === 0) {
             this.notify();
         }
@@ -35,6 +35,10 @@ class Lives {
     resetLives(): void {
         this.livesAmount = 0;
         this.livesInfoHTML.innerHTML = '-';
+    }
+
+    showActualLives(): void {
+        this.livesInfoHTML.innerHTML = this.livesAmount.toString();
     }
 }
 
