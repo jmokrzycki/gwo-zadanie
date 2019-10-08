@@ -10,10 +10,10 @@ export interface IGame {
 }
 
 class Game implements IGame {
-    board = new Board(25);
     points = new Points();
     timer = new Timer(5);
     lives = new Lives();
+    board = new Board(25, this.points, this.lives);
     private startButton: any = document.getElementById('start');
     private resetButton: any = document.getElementById('reset');
     private endHTML: HTMLElement = document.getElementById('end-info');
@@ -33,19 +33,8 @@ class Game implements IGame {
     runGame(): void {
         this.points.showActualPoints();
         this.lives.showActualLives();
-        this.gameCycle();
-        this.gameInterval = setInterval(this.gameCycle.bind(this), 2000);
-    }
-
-    gameCycle(): void {
-        let selectedNumber = Math.floor(Math.random() * 25),
-            elements = document.querySelectorAll('#board .square'),
-            element = elements[selectedNumber];
-
-        elements.forEach(((element) => {
-            element.classList.remove('active');
-        }));
-        element.classList.add('active');
+        this.board.boardCycle();
+        this.gameInterval = setInterval(this.board.boardCycle.bind(this), 2000);
     }
 
     endGame(): void {
@@ -62,19 +51,6 @@ class Game implements IGame {
         this.endHTML.classList.add("hidden");
     }
 
-    makeClickable(): void {
-        let elements = document.querySelectorAll('#board .square');
-
-        elements.forEach((element: HTMLElement, index: number) => {
-            element.addEventListener('click', this.squareOnClick.bind(this));
-        });
-    }
-
-    private squareOnClick(event: any): void {
-        this.points.updatePoints(event);
-        this.lives.updateLives();
-    }
-
     startButtonInitialize(): void {
         this.startButton.addEventListener('click', this.startGame.bind(this));
     }
@@ -84,7 +60,8 @@ class Game implements IGame {
     }
 
     startGame(): void {
-        this.makeClickable();
+        this.hideGameSummary();
+        this.board.makeSquaresClickable();
         this.runGame();
         this.timer.runTimer();
         this.resetButton.disabled = false;
@@ -92,6 +69,7 @@ class Game implements IGame {
     }
 
     resetGame(): void {
+        this.board.makeSquaresUnclickable();
         this.timer.resetTimer();
         this.points.resetPoints();
         this.lives.resetLives();

@@ -1,13 +1,19 @@
 import { IGame } from "../components/Game";
 
+export interface ILives {
+    updateLives(event: any): any;
+}
+
 class Lives {
-    private livesAmount: number;
+    private livesInitial: number;
+    private livesLeft: number;
     private livesHTML: HTMLElement = document.getElementById('lives-info');
     private livesInfoHTML: HTMLElement = this.livesHTML.querySelector('span');
     private observers: IGame[] = [];
 
-    constructor(livesAmount: number = 3) {
-        this.livesAmount = livesAmount;
+    constructor(livesInitial: number = 3) {
+        this.livesInitial = livesInitial;
+        this.livesLeft = livesInitial;
     }
 
     addObserver(observer: IGame): void {
@@ -21,24 +27,26 @@ class Lives {
     }
 
     getLives(): number {
-        return this.livesAmount;
+        return this.livesLeft;
     }
 
-    updateLives(): void {
-        this.livesAmount--;
+    updateLives(event: any): void {
+        if (!event.target.classList.contains('active')) {
+            this.livesLeft--;
+        }
         this.showActualLives();
-        if (this.livesAmount === 0) {
+        if (this.livesLeft === 0) {
             this.notify();
         }
     }
 
     resetLives(): void {
-        this.livesAmount = 0;
+        this.livesLeft = this.livesInitial;
         this.livesInfoHTML.innerHTML = '-';
     }
 
     showActualLives(): void {
-        this.livesInfoHTML.innerHTML = this.livesAmount.toString();
+        this.livesInfoHTML.innerHTML = this.livesLeft.toString();
     }
 }
 

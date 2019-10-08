@@ -1,3 +1,7 @@
+export interface IPoints {
+    updatePoints(event: any): any;
+}
+
 class Points {
     private points: number = 0;
     private pointsHTML: HTMLElement = document.getElementById('points-info');
@@ -8,13 +12,12 @@ class Points {
     }
 
     updatePoints(event: any): void {
-        let eventTarget = event.target;
-        this.calculatePoints(eventTarget);
+        this.calculatePoints(event);
         this.showActualPoints();
     }
 
-    private calculatePoints(eventTarget: any): void {
-        eventTarget.classList.contains('active') ? ++this.points : --this.points;
+    private calculatePoints(event: any): void {
+        event.target.classList.contains('active') ? ++this.points : --this.points;
     }
 
     resetPoints(): void {

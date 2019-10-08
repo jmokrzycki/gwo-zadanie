@@ -1,5 +1,9 @@
 import { IGame } from "../components/Game";
 
+interface ITimer {
+
+}
+
 class Timer {
     private elapsedSeconds: number = 0;
     private timeLimit: number;
@@ -10,8 +14,6 @@ class Timer {
 
     constructor(timeLimit: number = 60) {
         this.timeLimit = timeLimit;
-
-
     }
 
     addObserver(observer: IGame): void {
