@@ -1,5 +1,6 @@
 export interface IPoints {
-    updatePoints(event: any): any;
+    updatePoints(event: any): void;
+    getPoints(): number;
 }
 
 class Points {
