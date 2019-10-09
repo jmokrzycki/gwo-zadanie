@@ -1,8 +1,8 @@
-import Points from './Points';
-import Timer from './Timer';
-import Board from './Board';
-import Lives from './Lives';
-import EndGameSummary from './EndGameSummary';
+import Points from "./Points";
+import Timer from "./Timer";
+import Board from "./Board";
+import Lives from "./Lives";
+import EndGameSummary from "./EndGameSummary";
 
 export interface IGame {
     endGame(): void;
@@ -14,8 +14,8 @@ class Game implements IGame {
     lives = new Lives();
     board = new Board(this.points, this.lives, 25);
     endGameSummary = new EndGameSummary(this.points);
-    private startButton: any = document.getElementById('start');
-    private resetButton: any = document.getElementById('reset');
+    private startButton: any = document.getElementById("start");
+    private resetButton: any = document.getElementById("reset");
 
     init(): void {
         this.startButtonInitialize();
@@ -26,11 +26,11 @@ class Game implements IGame {
     }
 
     startButtonInitialize(): void {
-        this.startButton.addEventListener('click', this.startGame.bind(this));
+        this.startButton.addEventListener("click", this.startGame.bind(this));
     }
 
     resetButtonInitialize(): void {
-        this.resetButton.addEventListener('click', this.resetGame.bind(this));
+        this.resetButton.addEventListener("click", this.resetGame.bind(this));
     }
 
     startGame(): void {

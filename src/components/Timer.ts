@@ -7,8 +7,8 @@ interface ITimer {
 class Timer {
     private elapsedSeconds: number = 0;
     private timeLimit: number;
-    private timeHTML: HTMLElement = document.getElementById('time-info');
-    private timeInfoHTML: HTMLElement = this.timeHTML.querySelector('span');
+    private timeHTML: HTMLElement = document.getElementById("time-info");
+    private timeInfoHTML: HTMLElement = this.timeHTML.querySelector("span");
     private timeInterval: any;
     private observers: IGame[] = [];
 
@@ -42,7 +42,7 @@ class Timer {
     resetTimer(): void {
         clearInterval(this.timeInterval);
         this.elapsedSeconds = 0;
-        this.timeInfoHTML.innerHTML = '-';
+        this.timeInfoHTML.innerHTML = "-";
     }
 }
 

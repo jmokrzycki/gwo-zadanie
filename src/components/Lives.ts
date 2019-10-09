@@ -2,6 +2,7 @@ import { IGame } from "../components/Game";
 
 export interface ILives {
     updateLives(event: any): any;
+    takeLife(): any;
 }
 
 class Lives {
@@ -32,12 +33,16 @@ class Lives {
 
     updateLives(event: any): void {
         if (!event.target.classList.contains('active')) {
-            this.livesLeft--;
+            this.takeLife();
         }
-        this.showActualLives();
         if (this.livesLeft === 0) {
             this.notify();
         }
+    }
+
+    takeLife(): void {
+        this.livesLeft--;
+        this.showActualLives();
     }
 
     resetLives(): void {

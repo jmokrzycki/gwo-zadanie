@@ -5,8 +5,8 @@ export interface IPoints {
 
 class Points {
     private points: number = 0;
-    private pointsHTML: HTMLElement = document.getElementById('points-info');
-    private pointsInfoHTML: HTMLElement = this.pointsHTML.querySelector('span');
+    private pointsHTML: HTMLElement = document.getElementById("points-info");
+    private pointsInfoHTML: HTMLElement = this.pointsHTML.querySelector("span");
 
     getPoints(): number {
         return this.points;
@@ -18,12 +18,12 @@ class Points {
     }
 
     private calculatePoints(event: any): void {
-        event.target.classList.contains('active') ? ++this.points : --this.points;
+        event.target.classList.contains("active") ? ++this.points : --this.points;
     }
 
     resetPoints(): void {
         this.points = 0;
-        this.pointsInfoHTML.innerHTML = '-';
+        this.pointsInfoHTML.innerHTML = "-";
     }
 
     showActualPoints(): void {

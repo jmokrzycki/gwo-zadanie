@@ -1,8 +1,8 @@
 import { IPoints } from "./Points";
 
 class EndGameSummary {
-    private endGameSummaryHTML: HTMLElement = document.getElementById('end-info');
-    private endGameSummaryInfoHTML: HTMLSpanElement = this.endGameSummaryHTML.querySelector('span');
+    private endGameSummaryHTML: HTMLElement = document.getElementById("end-info");
+    private endGameSummaryInfoHTML: HTMLSpanElement = this.endGameSummaryHTML.querySelector("span");
     private points: IPoints;
 
     constructor(points: IPoints) {

@@ -1,9 +1,9 @@
-import { IPoints } from './Points';
-import { ILives } from './Lives';
+import { IPoints } from "./Points";
+import { ILives } from "./Lives";
 
 class Board {
     private squaresAmount: number;
-    private boardHTML: HTMLElement = document.getElementById('board');
+    private boardHTML: HTMLElement = document.getElementById("board");
     private squaresHTML: any;
     private points: IPoints;
     private lives: ILives;
@@ -19,31 +19,40 @@ class Board {
     generateSquares(): void {
         for (let i = this.squaresAmount; i--; i >= 0) {
             const square = document.createElement("div");
-            square.className += 'square';
+            square.className += "square";
             this.boardHTML.appendChild(square);
         }
-        this.squaresHTML = this.boardHTML.querySelectorAll('.square');
+        this.squaresHTML = this.boardHTML.querySelectorAll(".square");
     }
 
     makeSquaresClickable(): void {
         this.squaresHTML.forEach((element: HTMLElement) => {
-            element.addEventListener('click', this.squareOnClick);
+            element.addEventListener("click", this.squareOnClick);
         });
     }
 
-    boardCycle(): void {
+    boardCycle(firstRun: boolean = false): void {
         let selectedNumber = Math.floor(Math.random() * this.squaresAmount),
-            elements = document.querySelectorAll('#board .square'),
-            element = elements[selectedNumber];
+            element = this.squaresHTML[selectedNumber];
 
-        elements.forEach(((element) => {
-            element.classList.remove('active');
+        this.squaresHTML.forEach(((element) => {
+            element.classList.remove("active");
         }));
-        element.classList.add('active');
+        if (!this.checkSquareIsClicked() && !firstRun) {
+            this.lives.takeLife();
+        }
+        this.squaresHTML.forEach(((element) => {
+            element.classList.remove("clicked");
+        }));
+        element.classList.add("active");
+    }
+
+    checkSquareIsClicked(): boolean {
+        return this.boardHTML.querySelectorAll(".square.clicked").length === 1;
     }
 
     startBoardCycle(): void {
-        this.boardCycle();
+        this.boardCycle(true);
         this.gameInterval = setInterval(this.boardCycle.bind(this), 2000);
     }
 
@@ -53,18 +62,21 @@ class Board {
 
     makeSquaresUnclickable(): void {
         this.squaresHTML.forEach((element: HTMLElement) => {
-            element.removeEventListener('click', this.squareOnClick);
+            element.removeEventListener("click", this.squareOnClick);
         });
     }
 
     squareOnClick(event: any): void {
         this.points.updatePoints(event);
         this.lives.updateLives(event);
+        if (event.target.classList.contains("active")) {
+            event.target.classList.add("clicked");
+        }
     }
 
     resetSquares(): void {
         this.squaresHTML.forEach(((element) => {
-            element.classList.remove('active');
+            element.classList.remove("active");
         }));
         this.makeSquaresUnclickable();
     }
