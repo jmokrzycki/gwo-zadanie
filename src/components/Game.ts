@@ -12,11 +12,10 @@ class Game implements IGame {
     points = new Points();
     timer = new Timer(5);
     lives = new Lives();
-    board = new Board(25, this.points, this.lives);
+    board = new Board(this.points, this.lives, 25);
     endGameSummary = new EndGameSummary(this.points);
     private startButton: any = document.getElementById('start');
     private resetButton: any = document.getElementById('reset');
-    private gameInterval: any;
 
     init(): void {
         this.startButtonInitialize();
@@ -39,9 +38,8 @@ class Game implements IGame {
         this.timer.runTimer();
         this.points.showActualPoints();
         this.lives.showActualLives();
-        this.board.boardCycle();
+        this.board.startBoardCycle();
         this.board.makeSquaresClickable();
-        this.gameInterval = setInterval(this.board.boardCycle.bind(this), 2000);
         this.resetButton.disabled = false;
         this.startButton.disabled = true;
     }
@@ -52,7 +50,7 @@ class Game implements IGame {
         this.lives.resetLives();
         this.board.resetSquares();
         this.board.makeSquaresUnclickable();
-        clearInterval(this.gameInterval);
+        this.board.resetBoardCycle();
         this.resetButton.disabled = true;
         this.startButton.disabled = false;
     }

@@ -7,8 +7,9 @@ class Board {
     private squaresHTML: any;
     private points: IPoints;
     private lives: ILives;
+    private gameInterval: any;
 
-    constructor(squaresAmount: number = 25, points: IPoints, lives: ILives) {
+    constructor(points: IPoints, lives: ILives, squaresAmount: number = 25) {
         this.squaresAmount = squaresAmount;
         this.points = points;
         this.lives = lives;
@@ -16,7 +17,7 @@ class Board {
     }
 
     generateSquares(): void {
-        for (; this.squaresAmount--; this.squaresAmount >= 0) {
+        for (let i = this.squaresAmount; i--; i >= 0) {
             const square = document.createElement("div");
             square.className += 'square';
             this.boardHTML.appendChild(square);
@@ -31,7 +32,7 @@ class Board {
     }
 
     boardCycle(): void {
-        let selectedNumber = Math.floor(Math.random() * 25),
+        let selectedNumber = Math.floor(Math.random() * this.squaresAmount),
             elements = document.querySelectorAll('#board .square'),
             element = elements[selectedNumber];
 
@@ -41,7 +42,14 @@ class Board {
         element.classList.add('active');
     }
 
+    startBoardCycle(): void {
+        this.boardCycle();
+        this.gameInterval = setInterval(this.boardCycle.bind(this), 2000);
+    }
 
+    resetBoardCycle(): void {
+        clearInterval(this.gameInterval);
+    }
 
     makeSquaresUnclickable(): void {
         this.squaresHTML.forEach((element: HTMLElement) => {
