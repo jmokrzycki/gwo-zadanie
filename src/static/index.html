@@ -10,16 +10,25 @@
 </head>
 
 <body>
-    <h1>Reflex Game</h1>
+
     <script src="bundle.js"></script>
 
-    <div id='lives-info'>Życia: <span>-</span></div>
-    <div id='points-info'>Punkty: <span>-</span></div>
-    <div id='time-info'>Czas: <span>-</span> sek</div>
-    <div id='end-info' class='hidden'>Gra zakończona. Zdobyte punky: <span></span></div>
-    <div id='board'></div>
-    <button id="start">START</button>
-    <button id="reset" disabled>RESET</button>
+    <div class="game-container">
+        <h1>Reflex Game</h1>
+        <div class="header">
+            <div id="lives-info">Życia: <span>-</span></div>
+            <div id="points-info">Punkty: <span>-</span></div>
+            <div id="time-info">Czas: <span>-</span> sek</div>
+        </div>
+        <div id="end-info" class="hidden">Gra zakończona. Zdobyte punky: <span></span></div>
+        <div class="board-container">
+            <div id="board"></div>
+            <div class="buttons-container">
+                <button id="start">Start</button>
+                <button id="reset" disabled>Reset</button>
+            </div>
+        </div>
+    </div>
 </body>
 
 </html>

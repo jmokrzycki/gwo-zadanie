@@ -8,8 +8,8 @@ export interface ILives {
 class Lives {
     private livesInitial: number;
     private livesLeft: number;
-    private livesHTML: HTMLElement = document.getElementById('lives-info');
-    private livesInfoHTML: HTMLElement = this.livesHTML.querySelector('span');
+    private livesHTML: HTMLElement = document.getElementById("lives-info");
+    private livesInfoHTML: HTMLElement = this.livesHTML.querySelector("span");
     private observers: IGame[] = [];
 
     constructor(livesInitial: number = 3) {
@@ -32,7 +32,7 @@ class Lives {
     }
 
     updateLives(event: any): void {
-        if (!event.target.classList.contains('active')) {
+        if (!event.target.classList.contains("active")) {
             this.takeLife();
         }
         if (this.livesLeft === 0) {
@@ -47,7 +47,7 @@ class Lives {
 
     resetLives(): void {
         this.livesLeft = this.livesInitial;
-        this.livesInfoHTML.innerHTML = '-';
+        this.livesInfoHTML.innerHTML = "-";
     }
 
     showActualLives(): void {
