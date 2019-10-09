@@ -8,6 +8,9 @@ class Board {
     private points: IPoints;
     private lives: ILives;
     private gameInterval: any;
+    private deactivateSquareAndTakeLifeTimeout: any;
+    private firstCycle: any;
+    private activeSquare: any;
 
     constructor(points: IPoints, lives: ILives, squaresAmount: number = 25) {
         this.squaresAmount = squaresAmount;
@@ -31,33 +34,43 @@ class Board {
         });
     }
 
-    boardCycle(firstRun: boolean = false): void {
-        let selectedNumber = Math.floor(Math.random() * this.squaresAmount),
-            element = this.squaresHTML[selectedNumber];
+    boardCycle(): void {
+        const selectedNumber = Math.floor(Math.random() * this.squaresAmount);
 
-        this.squaresHTML.forEach(((element) => {
-            element.classList.remove("active");
-        }));
-        if (!this.checkSquareIsClicked() && !firstRun) {
-            this.lives.takeLife();
-        }
-        this.squaresHTML.forEach(((element) => {
-            element.classList.remove("clicked");
-        }));
-        element.classList.add("active");
+        this.activeSquare = this.squaresHTML[selectedNumber];
+        this.activeSquare.classList.add("active");
+        this.deactivateSquareAndTakeLifeTimeout = setTimeout(
+            this.deactivateSquareAndTakeLife.bind(this),
+            2000
+        );
     }
 
-    checkSquareIsClicked(): boolean {
+    private deactivateSquareAndTakeLife() {
+        if (!this.isSquareClicked() && !this.firstCycle) {
+            this.lives.takeLife();
+        }
+        this.squaresHTML.forEach(((square) => {
+            square.classList.remove("clicked");
+        }));
+        this.squaresHTML.forEach(((square) => {
+            square.classList.remove("active");
+        }));
+    }
+
+    isSquareClicked(): boolean {
         return this.boardHTML.querySelectorAll(".square.clicked").length === 1;
     }
 
     startBoardCycle(): void {
-        this.boardCycle(true);
-        this.gameInterval = setInterval(this.boardCycle.bind(this), 2000);
+        this.firstCycle = true;
+        this.boardCycle();
+        this.firstCycle = false;
+        this.gameInterval = setInterval(this.boardCycle.bind(this), 5000);
     }
 
     resetBoardCycle(): void {
         clearInterval(this.gameInterval);
+        clearTimeout(this.deactivateSquareAndTakeLifeTimeout);
     }
 
     makeSquaresUnclickable(): void {
@@ -66,7 +79,7 @@ class Board {
         });
     }
 
-    squareOnClick(event: any): void {
+    private squareOnClick(event: any): void {
         this.points.updatePoints(event);
         this.lives.updateLives(event);
         if (event.target.classList.contains("active")) {

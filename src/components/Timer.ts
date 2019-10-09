@@ -1,9 +1,5 @@
 import { IGame } from "../components/Game";
 
-interface ITimer {
-
-}
-
 class Timer {
     private elapsedSeconds: number = 0;
     private timeLimit: number;
@@ -31,7 +27,7 @@ class Timer {
         this.timeInterval = setInterval(this.timeCycle.bind(this), 1000);
     }
 
-    timeCycle(): void {
+    private timeCycle(): void {
         if (this.elapsedSeconds === this.timeLimit) {
             this.notify();
         }

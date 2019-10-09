@@ -3,17 +3,19 @@ import Timer from "./Timer";
 import Board from "./Board";
 import Lives from "./Lives";
 import EndGameSummary from "./EndGameSummary";
+import LostLifeInfo from './LostLifeInfo';
 
 export interface IGame {
     endGame(): void;
 }
 
 class Game implements IGame {
-    points = new Points();
-    timer = new Timer(5);
-    lives = new Lives();
-    board = new Board(this.points, this.lives, 25);
-    endGameSummary = new EndGameSummary(this.points);
+    private lostLifeInfo = new LostLifeInfo();
+    private points = new Points();
+    private timer = new Timer();
+    private lives = new Lives(this.lostLifeInfo);
+    private endGameSummary = new EndGameSummary(this.points);
+    private board = new Board(this.points, this.lives, 25);
     private startButton: any = document.getElementById("start");
     private resetButton: any = document.getElementById("reset");
 
@@ -25,11 +27,11 @@ class Game implements IGame {
         this.timer.addObserver(this);
     }
 
-    startButtonInitialize(): void {
+    private startButtonInitialize(): void {
         this.startButton.addEventListener("click", this.startGame.bind(this));
     }
 
-    resetButtonInitialize(): void {
+    private resetButtonInitialize(): void {
         this.resetButton.addEventListener("click", this.resetGame.bind(this));
     }
 
@@ -56,6 +58,7 @@ class Game implements IGame {
     }
 
     endGame(): void {
+        this.lostLifeInfo.clearHideInfoTimeouts();
         this.endGameSummary.show();
         this.resetGame()
     }

@@ -1,7 +1,7 @@
 import { IPoints } from "./Points";
 
 class EndGameSummary {
-    private endGameSummaryHTML: HTMLElement = document.getElementById("end-info");
+    private endGameSummaryHTML: HTMLElement = document.getElementById("game-info");
     private endGameSummaryInfoHTML: HTMLSpanElement = this.endGameSummaryHTML.querySelector("span");
     private points: IPoints;
 
@@ -10,8 +10,11 @@ class EndGameSummary {
     }
 
     show(): void {
+        const pointsAmount = this.points.getPoints(),
+            summary = `Gra zakończona. Zdobyte punky: ${pointsAmount}`;
+
         this.endGameSummaryHTML.classList.remove("hidden");
-        this.endGameSummaryInfoHTML.innerHTML = this.points.getPoints().toString();
+        this.endGameSummaryInfoHTML.innerHTML = summary;
     }
 
     hide(): void {

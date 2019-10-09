@@ -60,13 +60,17 @@ h1 {
     border: 1px solid black;
 }
 
+#game-info {
+    height: 1em;
+}
+
 .buttons-container {
     display: flex;
     justify-content: center;
 }
 
 .hidden {
-    display: none;
+    visibility: hidden;
 }
 
 button {

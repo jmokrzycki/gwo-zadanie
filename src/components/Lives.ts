@@ -1,4 +1,5 @@
 import { IGame } from "../components/Game";
+import { ILostLifeInfo } from './LostLifeInfo';
 
 export interface ILives {
     updateLives(event: any): any;
@@ -11,10 +12,12 @@ class Lives {
     private livesHTML: HTMLElement = document.getElementById("lives-info");
     private livesInfoHTML: HTMLElement = this.livesHTML.querySelector("span");
     private observers: IGame[] = [];
+    private lostLifeInfo: ILostLifeInfo;
 
-    constructor(livesInitial: number = 3) {
+    constructor(lostLifeInfo: ILostLifeInfo, livesInitial: number = 3) {
         this.livesInitial = livesInitial;
         this.livesLeft = livesInitial;
+        this.lostLifeInfo = lostLifeInfo;
     }
 
     addObserver(observer: IGame): void {
@@ -27,22 +30,20 @@ class Lives {
         });
     }
 
-    getLives(): number {
-        return this.livesLeft;
-    }
-
     updateLives(event: any): void {
         if (!event.target.classList.contains("active")) {
             this.takeLife();
-        }
-        if (this.livesLeft === 0) {
-            this.notify();
         }
     }
 
     takeLife(): void {
         this.livesLeft--;
         this.showActualLives();
+        if (this.livesLeft === 0) {
+            this.notify();
+        } else {
+            this.lostLifeInfo.show();
+        }
     }
 
     resetLives(): void {
